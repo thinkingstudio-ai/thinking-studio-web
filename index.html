@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thinking Studio — We Build Thoughtful Apps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f2ec;
+    --cream: #ede9e0;
+    --gold: #c9a84c;
+    --gold-light: #e8d49a;
+    --muted: #8a8479;
+    --line: rgba(15,14,12,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: multiply;
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 4rem 3rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 1;
+    
+  }
+
+  .hero-title {
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    opacity: 1;
+    
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-desc {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 380px;
+    margin-bottom: 3rem;
+    opacity: 1;
+    
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 0.25rem;
+    transition: color 0.3s, border-color 0.3s;
+    opacity: 1;
+    
+    width: fit-content;
+  }
+
+  .hero-cta:hover { color: var(--gold); border-color: var(--gold); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--cream) 0%, #d4c9a8 50%, #b8a878 100%);
+  }
+
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.15;
+    background-image:
+      repeating-linear-gradient(0deg, var(--ink) 0px, var(--ink) 1px, transparent 1px, transparent 60px),
+      repeating-linear-gradient(90deg, var(--ink) 0px, var(--ink) 1px, transparent 1px, transparent 60px);
+  }
+
+  .hero-number {
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+    z-index: 2;
+    font-size: 12rem;
+    font-weight: 300;
+    color: rgba(15,14,12,0.06);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    user-select: none;
+  }
+
+  .hero-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(15,14,12,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: rotateSlow 20s linear infinite;
+  }
+
+  .hero-badge-inner {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.5;
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .divider-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .divider-dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .divider-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 8rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .about-number {
+    font-size: 8rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--cream);
+    letter-spacing: -0.05em;
+    margin-top: -1rem;
+  }
+
+  .about-content h2 {
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+  }
+
+  .about-content h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .about-content p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    max-width: 560px;
+  }
+
+  .about-stats {
+    display: flex;
+    gap: 4rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+
+  /* APPS */
+  #apps {
+    background: var(--ink);
+    padding: 8rem 3rem;
+    color: var(--paper);
+  }
+
+  .apps-header {
+    max-width: 1200px;
+    margin: 0 auto 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .apps-header h2 {
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  .apps-header h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .apps-header p {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(245,242,236,0.4);
+    max-width: 280px;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  .apps-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(245,242,236,0.08);
+    border: 1px solid rgba(245,242,236,0.08);
+  }
+
+  .app-card {
+    background: var(--ink);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+    cursor: default;
+  }
+
+  .app-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--gold) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .app-card:hover { background: #1a1915; }
+  .app-card:hover::before { opacity: 0.05; }
+
+  .app-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .app-name {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--paper);
+    margin-bottom: 0.5rem;
+  }
+
+  .app-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .app-desc {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(245,242,236,0.45);
+    line-height: 1.65;
+  }
+
+  .app-status {
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+  }
+
+  .status-live {
+    background: rgba(201,168,76,0.15);
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .status-beta {
+    background: rgba(245,242,236,0.06);
+    color: rgba(245,242,236,0.4);
+    border: 1px solid rgba(245,242,236,0.1);
+  }
+
+  .status-soon {
+    background: transparent;
+    color: rgba(245,242,236,0.2);
+    border: 1px solid rgba(245,242,236,0.08);
+  }
+
+  /* CONTACT */
+  #contact {
+    padding: 8rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: center;
+  }
+
+  .contact-left h2 {
+    font-size: clamp(2.5rem, 4vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 2rem;
+  }
+
+  .contact-left h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .contact-left p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+
+  .contact-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .contact-item:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.03);
+  }
+
+  .contact-item-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .contact-item-value {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .contact-item-value:hover { color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+
+  .footer-mark {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes rotateSlow {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.was-hidden {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 6rem 1.5rem 3rem; }
+    .hero-right { height: 250px; }
+    #about { grid-template-columns: 1fr; padding: 4rem 1.5rem; gap: 2rem; }
+    .about-number { display: none; }
+    #apps { padding: 4rem 1.5rem; }
+    .apps-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .apps-header p { text-align: left; }
+    .apps-grid { grid-template-columns: 1fr; }
+    #contact { grid-template-columns: 1fr; padding: 4rem 1.5rem; gap: 3rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Thinking Studio</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#apps">Apps</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Est. 2025 · Cheyenne, Wyoming</p>
+    <h1 class="hero-title">We build<br><em>thoughtful</em><br>apps.</h1>
+    <p class="hero-desc">A studio dedicated to crafting digital products with purpose — from AI-powered companions to human connection tools.</p>
+    <a href="#apps" class="hero-cta">Explore our work →</a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-pattern"></div>
+    <div class="hero-badge">
+      <div class="hero-badge-inner">Thinking<br>Studio<br>LLC</div>
+    </div>
+    <div class="hero-number">TS</div>
+  </div>
+</section>
+
+<div class="divider">
+  <span class="divider-label">Thinking Studio LLC</span>
+  <div class="divider-line"></div>
+  <div class="divider-dots">
+    <div class="divider-dot"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-dot"></div>
+  </div>
+  <span class="divider-label">Apps that matter</span>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <p class="section-label">About us</p>
+    <div class="about-number">01</div>
+  </div>
+  <div class="about-content reveal">
+    <h2>Built by one person,<br><em>for real people.</em></h2>
+    <p>Thinking Studio LLC is an independent software studio founded by R. Malone — a solo builder obsessed with creating apps that actually matter. Not just functional, but meaningful.</p>
+    <p>Every product starts with a simple question: does this make someone's life a little better, a little clearer, a little more human? If yes, we build it.</p>
+    <div class="about-stats">
+      <div>
+        <div class="stat-number">3</div>
+        <div class="stat-label">Products</div>
+      </div>
+      <div>
+        <div class="stat-number">3</div>
+        <div class="stat-label">Markets</div>
+      </div>
+      <div>
+        <div class="stat-number">2025</div>
+        <div class="stat-label">Founded</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPS -->
+<section id="apps">
+  <div class="apps-header reveal">
+    <h2>Our<br><em>products.</em></h2>
+    <p>Each app is designed to solve a specific problem for a specific person.</p>
+  </div>
+  <div class="apps-grid reveal">
+
+    <div class="app-card">
+      <span class="app-status status-live">Live</span>
+      <div class="app-icon">✉️</div>
+      <div class="app-name">Aurora</div>
+      <div class="app-tag">Social · Pen Pal</div>
+      <p class="app-desc">Words are precious. Aurora is your thoughtful AI pen pal — write letters, find pen pals, and take on poetic challenges. When the world moves fast, Aurora gives you a moment to breathe.</p>
+    </div>
+
+    <div class="app-card">
+      <span class="app-status status-beta">Beta</span>
+      <div class="app-icon">💧</div>
+      <div class="app-name">Water Drop</div>
+      <div class="app-tag">Wellness · Mindfulness</div>
+      <p class="app-desc">A self-awareness morning ritual app with an AI companion and a charity model tied to clean water access.</p>
+    </div>
+
+    <div class="app-card">
+      <span class="app-status status-soon">Soon</span>
+      <div class="app-icon">🧠</div>
+      <div class="app-name">TXOS</div>
+      <div class="app-tag">Productivity · AI</div>
+      <p class="app-desc">Your personal AI thinking partner. War Room for tough decisions, Memory Brain for context, Quick Actions for daily clarity. Built for people who think deeply and act deliberately.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <h2>Let's<br><em>connect.</em></h2>
+    <p>We're always open to collaborations, partnerships, and honest conversations about building something meaningful together.</p>
+  </div>
+  <div class="contact-right reveal">
+    <div class="contact-item">
+      <span class="contact-item-label">General enquiries</span>
+      <a href="/cdn-cgi/l/email-protection#49212c252526093d2120272220272e3a3d3c2d2026672820" class="contact-item-value"><span class="__cf_email__" data-cfemail="2a424f4646456a5e4243444143444d595e5f4e4345044b43">[email&#160;protected]</span></a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-item-label">Website</span>
+      <a href="https://thinkingstudio.ai" class="contact-item-value">thinkingstudio.ai</a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-item-label">Registered in</span>
+      <span class="contact-item-value">Wyoming, United States</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">© 2025 Thinking Studio LLC. All rights reserved.</span>
+  <span class="footer-mark">TS</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry
