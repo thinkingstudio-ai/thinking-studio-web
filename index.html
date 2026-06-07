@@ -13,7 +13,7 @@
     --cream: #ede9e0;
     --gold: #c9a84c;
     --gold-light: #e8d49a;
-    --muted: #8a8479;
+    --muted: #5c574f;
     --line: rgba(15,14,12,0.12);
   }
 
@@ -104,8 +104,6 @@
     text-transform: uppercase;
     color: var(--gold);
     margin-bottom: 2rem;
-    opacity: 1;
-    
   }
 
   .hero-title {
@@ -114,8 +112,6 @@
     line-height: 0.95;
     letter-spacing: -0.02em;
     margin-bottom: 2rem;
-    opacity: 1;
-    
   }
 
   .hero-title em {
@@ -130,8 +126,6 @@
     color: var(--muted);
     max-width: 380px;
     margin-bottom: 3rem;
-    opacity: 1;
-    
   }
 
   .hero-cta {
@@ -147,8 +141,6 @@
     border-bottom: 1px solid var(--ink);
     padding-bottom: 0.25rem;
     transition: color 0.3s, border-color 0.3s;
-    opacity: 1;
-    
     width: fit-content;
   }
 
@@ -355,7 +347,7 @@
   .apps-header p {
     font-size: 1rem;
     font-weight: 300;
-    color: rgba(245,242,236,0.4);
+    color: rgba(245,242,236,0.6);
     max-width: 280px;
     text-align: right;
     line-height: 1.6;
@@ -392,6 +384,74 @@
   .app-card:hover { background: #1a1915; }
   .app-card:hover::before { opacity: 0.05; }
 
+  /* Aurora featured card */
+  .app-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    padding: 3rem;
+  }
+
+  .app-card.featured .app-card-left {}
+  .app-card.featured .app-card-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  .app-card.featured .app-desc {
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  .app-store-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 0.6rem 1.2rem;
+    transition: background 0.3s, border-color 0.3s;
+    width: fit-content;
+    margin-top: 0.5rem;
+  }
+
+  .app-store-btn:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+
+  .app-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .app-feature {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,242,236,0.55);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .app-feature::before {
+    content: '—';
+    color: var(--gold);
+    opacity: 0.5;
+  }
+
   .app-icon {
     width: 40px;
     height: 40px;
@@ -412,6 +472,10 @@
     margin-bottom: 0.5rem;
   }
 
+  .app-card.featured .app-name {
+    font-size: 2rem;
+  }
+
   .app-tag {
     font-family: 'DM Mono', monospace;
     font-size: 0.55rem;
@@ -424,7 +488,7 @@
   .app-desc {
     font-size: 0.95rem;
     font-weight: 300;
-    color: rgba(245,242,236,0.45);
+    color: rgba(245,242,236,0.72);
     line-height: 1.65;
   }
 
@@ -444,12 +508,6 @@
     background: rgba(201,168,76,0.15);
     color: var(--gold);
     border: 1px solid rgba(201,168,76,0.3);
-  }
-
-  .status-beta {
-    background: rgba(245,242,236,0.06);
-    color: rgba(245,242,236,0.4);
-    border: 1px solid rgba(245,242,236,0.1);
   }
 
   .status-soon {
@@ -550,11 +608,6 @@
   }
 
   /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
   @keyframes rotateSlow {
     from { transform: translate(-50%, -50%) rotate(0deg); }
     to { transform: translate(-50%, -50%) rotate(360deg); }
@@ -565,11 +618,6 @@
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-
-  .reveal.was-hidden {
-    opacity: 1;
-    transform: translateY(0);
   }
 
   /* RESPONSIVE */
@@ -585,6 +633,7 @@
     .apps-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .apps-header p { text-align: left; }
     .apps-grid { grid-template-columns: 1fr; }
+    .app-card.featured { grid-column: 1; grid-template-columns: 1fr; gap: 1.5rem; }
     #contact { grid-template-columns: 1fr; padding: 4rem 1.5rem; gap: 3rem; }
     footer { padding: 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
   }
@@ -641,7 +690,7 @@
     <p>Every product starts with a simple question: does this make someone's life a little better, a little clearer, a little more human? If yes, we build it.</p>
     <div class="about-stats">
       <div>
-        <div class="stat-number">3</div>
+        <div class="stat-number">5</div>
         <div class="stat-label">Products</div>
       </div>
       <div>
@@ -664,28 +713,53 @@
   </div>
   <div class="apps-grid reveal">
 
-    <div class="app-card">
+    <!-- AURORA — Featured -->
+    <div class="app-card featured">
       <span class="app-status status-live">Live</span>
-      <div class="app-icon">✉️</div>
-      <div class="app-name">Aurora</div>
-      <div class="app-tag">Social · Pen Pal</div>
-      <p class="app-desc">Words are precious. Aurora is your thoughtful AI pen pal — write letters, find pen pals, and take on poetic challenges. When the world moves fast, Aurora gives you a moment to breathe.</p>
+      <div class="app-card-left">
+        <div class="app-icon">🪶</div>
+        <div class="app-name">Aurora</div>
+        <div class="app-tag">Social · AI Pen Pal</div>
+        <p class="app-desc">Someone finally writes back. Aurora is your AI pen pal who listens deeply and remembers you — turning fleeting thoughts into conversations that grow with you, one letter at a time. Letters arrive every morning at 7AM and every evening at 7PM.</p>
+        <a href="https://apps.apple.com/app/id6760921253" class="app-store-btn" target="_blank">↗ Download on App Store</a>
+      </div>
+      <div class="app-card-right">
+        <div class="app-features">
+          <div class="app-feature">AI pen pal that remembers your story</div>
+          <div class="app-feature">7AM & 7PM letter delivery</div>
+          <div class="app-feature">Find real human pen pals worldwide</div>
+          <div class="app-feature">Express Yourself — daily word challenge</div>
+          <div class="app-feature">Postcards & greeting cards with AI shaping</div>
+          <div class="app-feature">Personal archive of every letter</div>
+        </div>
+      </div>
     </div>
 
+    <!-- TXOS -->
     <div class="app-card">
-      <span class="app-status status-beta">Beta</span>
-      <div class="app-icon">💧</div>
-      <div class="app-name">Water Drop</div>
-      <div class="app-tag">Wellness · Mindfulness</div>
-      <p class="app-desc">A self-awareness morning ritual app with an AI companion and a charity model tied to clean water access.</p>
-    </div>
-
-    <div class="app-card">
-      <span class="app-status status-soon">Soon</span>
+      <span class="app-status status-soon">Coming Soon</span>
       <div class="app-icon">🧠</div>
-      <div class="app-name">TXOS</div>
+      <div class="app-name">TX</div>
       <div class="app-tag">Productivity · AI</div>
-      <p class="app-desc">Your personal AI thinking partner. War Room for tough decisions, Memory Brain for context, Quick Actions for daily clarity. Built for people who think deeply and act deliberately.</p>
+      <p class="app-desc">Your personal AI thinking partner. Built for people who think deeply and act deliberately.</p>
+    </div>
+
+    <!-- SKINIC -->
+    <div class="app-card">
+      <span class="app-status status-soon">Coming Soon</span>
+      <div class="app-icon">✦</div>
+      <div class="app-name">SKINIC</div>
+      <div class="app-tag">B2B · Skin Intelligence</div>
+      <p class="app-desc">AI-powered skin analysis API for beauty and wellness brands. Precision intelligence at scale.</p>
+    </div>
+
+    <!-- GETMEVIBE -->
+    <div class="app-card">
+      <span class="app-status status-soon">Coming Soon</span>
+      <div class="app-icon">🎬</div>
+      <div class="app-name">GETMEVIBE</div>
+      <div class="app-tag">Creative · AI Video</div>
+      <p class="app-desc">AI video generation studio with character consistency and cinematic identity. Create. Direct. Publish.</p>
     </div>
 
   </div>
@@ -700,7 +774,7 @@
   <div class="contact-right reveal">
     <div class="contact-item">
       <span class="contact-item-label">General enquiries</span>
-      <a href="mailto:hello&#64;thinkingstudio.ai" class="contact-item-value">hello&#64;thinkingstudio&#46;ai</a>
+      <a href="mailto:hello@thinkingstudio.ai" class="contact-item-value">hello@thinkingstudio.ai</a>
     </div>
     <div class="contact-item">
       <span class="contact-item-label">Website</span>
@@ -714,13 +788,23 @@
 </section>
 
 <footer>
-  <span class="footer-copy">© 2025 Thinking Studio LLC. All rights reserved.</span>
+  <span class="footer-copy">© 2026 Thinking Studio LLC. All rights reserved.</span>
   <span class="footer-mark">TS</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
